@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-@model UniversityRegistrar.Models.Patient
+@model DoctorOffice.Models.Patient
 
 <h3>Edit patient info for:</h3>
 <hr />
@@ -14,10 +14,10 @@
     @Html.LabelFor(model => model.Name)
     @Html.EditorFor(model => model.Name, new {@class = "form-control"})
   </div>
-  <div class="form-group"> 
+  @* <div class="form-group"> 
     @Html.Label("Select doctor:")
     @Html.DropDownList("DoctorId")
-  </div>
+  </div> *@
   <input type="submit" value="Edit" class="btn" />
 }
 <p>@Html.ActionLink("Back to patients list", "Index")</p> 

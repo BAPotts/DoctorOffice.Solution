@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DoctorOffice.Controllers
 {
-  public class PatientController : Controller
+  public class PatientsController : Controller
   {
-    private readonly DoctorOfficeContent _db;
+    private readonly DoctorOfficeContext _db;
 
-    public PatientController(DoctorOfficeContext db)
+    public PatientsController(DoctorOfficeContext db)
     {
       _db = db;
     }
@@ -44,12 +44,17 @@ namespace DoctorOffice.Controllers
     {
       var thisPatient = _db.Patients
         .Include(patient => patient.Doctors)
-        .ThenInclude(join => join.Doctors)
+        .ThenInclude(join => join.Doctor)
         .FirstOrDefault(patient => patient.PatientId == id);
 
       return View(thisPatient);
     }
-
+    public ActionResult Edit(int id)
+    {
+      var thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+      return View(thisPatient);
+    }
+    
     [HttpPost]
     public ActionResult Edit(Patient patient, int DoctorId)
     {
@@ -72,7 +77,7 @@ namespace DoctorOffice.Controllers
     {
       if(DoctorId != 0)
       {
-        _db.DoctorPatient.Add(new DoctorPatient() {DoctorId = DoctorId, patientId = patient.PatientId});
+        _db.DoctorPatient.Add(new DoctorPatient() {DoctorId = DoctorId, PatientId = patient.PatientId});
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
@@ -89,15 +94,15 @@ namespace DoctorOffice.Controllers
 
     public ActionResult Delete(int id)
     {
-      var thisStudent = _db.Students.FirstOrDefault(patients => patients.StudentId == id);
-      return View(thisStudent);
+      var thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+      return View(thisPatient);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      var thisStudent = _db.Students.FirstOrDefault(patients => patients.StudentId == id);
-      _db.Students.Remove(thisStudent);
+      var thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+      _db.Patients.Remove(thisPatient);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
