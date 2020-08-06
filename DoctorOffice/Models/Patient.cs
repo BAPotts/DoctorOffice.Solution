@@ -4,6 +4,7 @@ namespace DoctorOffice.Models
 {
   public class Patient
   {
+    
     public Patient()
     {
       this.Doctors = new HashSet<DoctorPatient>();
