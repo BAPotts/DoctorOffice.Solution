@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@using DoctorOffice.Models;
+@model List<DoctorOffice.Models.Patient>;
+
+<h3>Patients list:</h3>
+<hr />
+@if (@Model.Count == 0)
+{
+  <p>No patients have been added yet!</p>
+} 
+
+@foreach (Patient patient in Model)
+{
+  <p>@Html.ActionLink($"{patient.Name}", "Details", new { id = patient.PatientId })</p>
+}
+
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
+<p>@Html.ActionLink("Add new patient", "Create")</p> 
